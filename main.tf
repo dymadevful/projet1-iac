@@ -4,16 +4,9 @@ terraform {
       source  = "hashicorp/aws"
       version = "6.0.0"
     }
-    vault = {
-      source  = "hashicorp/vault"
-      version = "~>5.0.0"
-    }
   }
 }
 
-provider "vault" {
-  # Configuration options
-}
 
 provider "aws" {
   region  = var.aws_region
