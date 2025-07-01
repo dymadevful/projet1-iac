@@ -1,5 +1,5 @@
 terraform {
-  required_version = "1.12.2"
+  required_version = ">= 1.5.0"
   backend "s3" {
     bucket       = "mon-tfstate-dyma-bucket-projet1-unique-12345"
     key          = "projet1-iac/main/terraform.tfstate"
