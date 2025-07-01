@@ -8,10 +8,8 @@ terraform {
   }
 }
 
-
 provider "aws" {
   region  = var.aws_region
-  profile = "projet1-sso"
 }
 
 data "aws_ami" "amazon_linux_2023" {
