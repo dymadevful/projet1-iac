@@ -1,32 +1,32 @@
 resource "aws_security_group" "web_sg" {
-  name        = "web-sg-${ var.project_name }-${ lower(var.environment_tag) }" // Nom mis à jour pour NGINX
-  description = "Allow HTTP inbound traffic for ${ var.project_name } NGINX WebServer"
-  vpc_id = var.vpc_id
-  
+  name        = "web-sg-${var.project_name}-${lower(var.environment_tag)}" // Nom mis à jour pour NGINX
+  description = "Allow HTTP inbound traffic for ${var.project_name} NGINX WebServer"
+  vpc_id      = var.vpc_id
+
   ingress {
     description      = "HTTP from anywhere"
     from_port        = 80
     to_port          = 80
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"] # Autorise le trafic HTTP depuis n'importe quelle IP
-    ipv6_cidr_blocks = ["::/0"]     # Autorise le trafic HTTP depuis n'importe quelle IP (IPv6)
+    ipv6_cidr_blocks = ["::/0"]      # Autorise le trafic HTTP depuis n'importe quelle IP (IPv6)
   }
 
   egress {
     description      = "Allow all outbound traffic"
     from_port        = 0
     to_port          = 0
-    protocol         = "-1" # "-1" signifie tous les protocoles
+    protocol         = "-1"          # "-1" signifie tous les protocoles
     cidr_blocks      = ["0.0.0.0/0"] #trivy:ignore:AVD-AWS-0104:projet de test
     ipv6_cidr_blocks = ["::/0"]
   }
 
   tags = {
-    Name      = "WebServer-NGINX-SG-${ var.project_name }"
+    Name      = "WebServer-NGINX-SG-${var.project_name}"
     Project   = var.project_name
     ManagedBy = "Terraform"
   }
-  
+
   lifecycle {
     create_before_destroy = true
   }
@@ -34,8 +34,8 @@ resource "aws_security_group" "web_sg" {
 
 resource "aws_instance" "web_server" {
   # Exemple pour Amazon Linux 2023 (à vérifier/remplacer) : recherchez la dernière AL2023
-  ami           = var.ami_id
-  instance_type = var.instance_type # Type d'instance éligible au niveau gratuit (vérifiez les conditions)
+  ami                         = var.ami_id
+  instance_type               = var.instance_type # Type d'instance éligible au niveau gratuit (vérifiez les conditions)
   associate_public_ip_address = true
 
   # Configuration des métadonnées pour IMDSv2 (recommandé)
@@ -104,7 +104,7 @@ resource "aws_instance" "web_server" {
             EOF
 
   tags = {
-    Name        = "WebServer-NGINX-Metadata-${ var.project_name }"
+    Name        = "WebServer-NGINX-Metadata-${var.project_name}"
     Environment = var.environment_tag
     ManagedBy   = "Terraform" // ou "OpenTofu"
     Project     = var.project_name
