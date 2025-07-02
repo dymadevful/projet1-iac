@@ -224,7 +224,7 @@ jobs:
           set -e
 
           if [ $RETCODE -ne 0 ] || [ -z "$APP_IP" ]; then
-            echo "# la sortie Terraform n’existe pas ou est vide"
+            echo "# la sortie Terraform n’existe pas ou est vide!"
             echo "app_url=non-disponible" >> $GITHUB_OUTPUT
             echo "url de l’application (staging) : non-disponible"
           else
