@@ -194,10 +194,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Download Terraform Plan Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: terraform-plan-dev
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -211,9 +207,17 @@ jobs:
         run: terraform init -input=false
       - name: Select Staging Workspace
         run: terraform workspace select dev || terraform workspace new dev
-
+      - name: Terraform Plan for Staging
+        id: plan_staging
+        run: |
+          terraform plan -input=false -no-color -out=tfplan-staging.binary
+          terraform show -no-color tfplan-staging.binary > tfplan-staging.txt
+          if grep -q "resources to be destroyed" tfplan-staging.txt; then
+            echo "::warning title=changements destructeurs détectés::le plan pour staging contient des destructions. vérification manuelle recommandée."
+          fi
+          echo "plan_file=tfplan-staging.binary" >> $GITHUB_OUTPUT
       - name: Terraform Apply to Staging
-        run: terraform apply -input=false terraform-plan-dev/tfplan-dev.binary
+        run: terraform apply -input=false ${{ steps.plan_staging.outputs.plan_file }}
       - name: récupérer l’IP et formater la sortie
         id: get_app_url_staging
         run: |
