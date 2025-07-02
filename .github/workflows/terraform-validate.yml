@@ -182,3 +182,52 @@ jobs:
             tfplan-${{ steps.set_workspace.outputs.tf_workspace }}.txt
           retention-days: 7
           if-no-files-found: ignore
+  terraform_apply_staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [validate-code] # dépend de la validation. le plan est régénéré.
+    if: ${{ github.ref == 'refs/heads/staging' && github.event_name == 'push' }}
+    environment:
+      name: staging
+      url: ${{ steps.get_app_url_staging.outputs.app_url }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Download Terraform Plan Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-plan-dev
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::850995556933:role/GitHubActions-Terraform-Role-Projet1 # !! remplacez par l’ARN de votre rôle !!
+          aws-region: eu-west-3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.12.1" # spécifiez la version de `Terraform` à utiliser
+      - name: Terraform Init
+        run: terraform init -input=false
+      - name: Select Staging Workspace
+        run: terraform workspace select dev || terraform workspace new dev
+
+      - name: Terraform Apply to Staging
+        run: terraform apply -input=false terraform-plan-dev/tfplan-dev.binary
+      - name: récupérer l’IP et formater la sortie
+        id: get_app_url_staging
+        run: |
+          # désactiver l’arrêt automatique pour gérer l’absence d’output
+          set +e
+          APP_IP=$(terraform output -raw web_server_public_ip)
+          RETCODE=$?
+          set -e
+
+          if [ $RETCODE -ne 0 ] || [ -z "$APP_IP" ]; then
+            echo "# la sortie Terraform n’existe pas ou est vide"
+            echo "app_url=non-disponible" >> $GITHUB_OUTPUT
+            echo "url de l’application (staging) : non-disponible"
+          else
+            echo "app_url=http://${APP_IP}" >> $GITHUB_OUTPUT
+            echo "url de l’application (staging) : http://${APP_IP}"
+          fi
