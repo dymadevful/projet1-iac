@@ -1,11 +1,11 @@
 output "web_server_public_ip" {
   description = "Adresse IP publique de l'instance EC2 NGINX. Accédez via http://<IP_PUBLIQUE>"
-  value       = module.web_server_1.web_server_public_ip
+  value       = module.instance-web.web_server_public_ip
 }
 
 output "web_server_instance_id" {
   description = "ID de l'instance EC2 NGINX."
-  value       = module.web_server_1.web_server_instance_id
+  value       = module.instance-web.web_server_instance_id
 }
 
 output "vpc_id_from_module" {

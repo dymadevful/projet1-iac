@@ -57,12 +57,14 @@ module "vpc" {
   tags = merge(local.common_tags, { by = "hcp" })
 }
 
-module "web_server_1" {
-  source          = "./modules/instance_web"
+module "instance-web" {
+  source  = "app.terraform.io/dymalearning/instance-web/aws"
+  version = "1.0.0"
   ami_id          = data.aws_ami.amazon_linux_2023.id
   environment_tag = terraform.workspace
   instance_type   = local.current_instance_config.instance_type
   project_name    = var.project_name
   subnet_id       = module.vpc.public_subnets[0]
   vpc_id          = module.vpc.vpc_id
+  # insert required variables here
 }

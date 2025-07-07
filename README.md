@@ -14,7 +14,7 @@
 
 | Name                                                                    | Source                 | Version |
 | ----------------------------------------------------------------------- | ---------------------- | ------- |
-| <a name="module_web_server_1"></a> [web_server_1](#module_web_server_1) | ./modules/instance_web | n/a     |
+| <a name="module_instance-web"></a> [instance-web](#module_instance-web) | ./modules/instance_web | n/a     |
 
 ## Resources
 
