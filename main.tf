@@ -6,6 +6,10 @@ terraform {
       version = "6.0.0"
     }
   }
+
+  cloud {
+    organization = "dymalearning"
+  }
 }
 
 provider "aws" {
