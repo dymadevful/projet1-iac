@@ -38,3 +38,5 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init
+        env:
+          TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
