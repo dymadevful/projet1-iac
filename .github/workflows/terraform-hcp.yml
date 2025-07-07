@@ -22,7 +22,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::VOTRE_ID_COMPTE:role/hcp-terraform-role-dyma-iac # Mettez l'ARN de votre rôle IAM
+          role-to-assume: arn:aws:iam::850995556933:role/GitHubActions-Terraform-Role-Projet1 # Mettez l'ARN de votre rôle IAM
           aws-region: eu-west-3
 
       # Installation de Terraform
