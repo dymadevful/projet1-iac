@@ -33,9 +33,9 @@
 
 ## Outputs
 
-| Name                                                                                                  | Description                                                                   |
-| ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| <a name="output_web_server_instance_id"></a> [web_server_instance_id](#output_web_server_instance_id) | ID de l'instance EC2 NGINX.                                                   |
-| <a name="output_web_server_public_ip"></a> [web_server_public_ip](#output_web_server_public_ip)       | Adresse IP publique de l'instance EC2 NGINX. Accédez via http://<IP_PUBLIQUE> |
+| Name                                                                                                  | Description                                                                     |
+| ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| <a name="output_web_server_instance_id"></a> [web_server_instance_id](#output_web_server_instance_id) | ID de l'instance EC2 NGINX.                                                     |
+| <a name="output_web_server_public_ip"></a> [web_server_public_ip](#output_web_server_public_ip)       | Adresse IP publique de l'instance EC2 NGINX. Accédez via http://<IP_PUBLIQUE> ! |
 
 5m9PBgdr3mi/
