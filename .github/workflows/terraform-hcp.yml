@@ -13,7 +13,8 @@ jobs:
       contents: read
       pull-requests: write
       id-token: write # Nécessaire pour l'authentification OIDC vers AWS
-
+    env:
+      TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,12 +34,7 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init
-        env:
-          # C'est ici que nous utilisons le secret pour authentifier l'accès au registre privé
-          TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
 
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
-        env:
-          TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
