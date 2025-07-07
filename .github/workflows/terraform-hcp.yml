@@ -34,7 +34,5 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init
-
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan -no-color
+        env:
+          TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
