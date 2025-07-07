@@ -34,6 +34,13 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+      - name: Configure Terraform credentials for private registry
+        run: |
+          mkdir -p ~/.terraform.d
+          echo 'credentials "app.terraform.io" {
+            token = "${{ secrets.TF_API_TOKEN }}"
+          }' > ~/.terraform.d/credentials.tfrc.json
+
       # Exécution de Terraform, avec le jeton pour le registre privé
       - name: Terraform Init
         id: init
