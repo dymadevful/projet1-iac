@@ -5,11 +5,6 @@ on:
     branches:
       - hcp
 
-env:
-  TF_CLOUD_ORGANIZATION: "dymalearning"
-  TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
-  TF_WORKSPACE: "projet1-iac"
-
 jobs:
   terraform:
     name: "Terraform Plan"
@@ -45,5 +40,3 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init
-        env:
-          TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
