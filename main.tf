@@ -9,6 +9,9 @@ terraform {
 
   cloud {
     organization = "dymalearning"
+    workspaces {
+      name = "projet1-iac"
+    }
   }
 }
 
